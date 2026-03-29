@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuevo Miembro AdmiraNext</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0d1117; color: #e6edf3; min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #161b22 0%, #0d1117 50%, #0a1628 100%);
+    border-bottom: 1px solid #30363d;
+    padding: 48px 20px 40px;
+    text-align: center;
+  }
+  .hero .eyebrow {
+    font-size: 0.85rem; color: #8b949e; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .hero h1 {
+    font-size: 2.2rem; color: #58a6ff; margin-bottom: 12px;
+    background: linear-gradient(90deg, #58a6ff, #79c0ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { font-size: 1.1rem; color: #8b949e; max-width: 600px; margin: 0 auto; }
+
+  .progress-bar {
+    max-width: 800px; margin: 0 auto; padding: 16px 20px;
+    position: sticky; top: 0; z-index: 100;
+    background: #0d1117cc; backdrop-filter: blur(8px);
+    border-bottom: 1px solid #21262d;
+  }
+  .progress-track {
+    height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #238636, #2ea043);
+    border-radius: 3px; transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 0.8rem; color: #8b949e; margin-top: 6px; text-align: right;
+  }
+
+  main { max-width: 800px; margin: 0 auto; padding: 20px 20px 80px; }
+
+  .section {
+    margin-bottom: 16px; border: 1px solid #30363d; border-radius: 8px;
+    overflow: hidden; background: #161b22;
+  }
+  .section-header {
+    padding: 16px 20px; cursor: pointer; display: flex;
+    align-items: center; gap: 12px; user-select: none;
+    transition: background 0.2s;
+  }
+  .section-header:hover { background: #1c2128; }
+  .section-header .arrow {
+    font-size: 0.8rem; color: #8b949e; transition: transform 0.3s;
+    flex-shrink: 0; width: 16px;
+  }
+  .section.open .section-header .arrow { transform: rotate(90deg); }
+  .section-header .num {
+    background: #58a6ff; color: #0d1117; font-weight: 700;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+  .section.done .section-header .num {
+    background: #238636;
+  }
+  .section-header h2 { font-size: 1.1rem; color: #e6edf3; flex: 1; }
+  .section-header .badge {
+    font-size: 0.75rem; padding: 2px 8px; border-radius: 10px;
+    background: #21262d; color: #8b949e;
+  }
+  .section.done .section-header .badge {
+    background: #23863622; color: #3fb950;
+  }
+
+  .section-body {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  }
+  .section.open .section-body { max-height: 2000px; }
+  .section-content { padding: 0 20px 20px; }
+
+  .check-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid #21262d;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 20px; height: 20px; border: 2px solid #30363d; border-radius: 4px;
+    background: #0d1117; cursor: pointer; flex-shrink: 0; margin-top: 2px;
+    position: relative; transition: all 0.2s;
+  }
+  .check-item input[type="checkbox"]:checked {
+    background: #238636; border-color: #238636;
+  }
+  .check-item input[type="checkbox"]:checked::after {
+    content: ''; position: absolute; top: 2px; left: 6px;
+    width: 5px; height: 10px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .check-item label {
+    cursor: pointer; color: #c9d1d9; flex: 1;
+  }
+  .check-item input:checked + label {
+    color: #8b949e; text-decoration: line-through;
+  }
+
+  .info-box {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+    padding: 12px 16px; margin: 12px 0; font-size: 0.9rem;
+  }
+  .info-box.tip { border-left: 3px solid #58a6ff; }
+  .info-box.warn { border-left: 3px solid #d29922; }
+
+  code {
+    background: #0d1117; padding: 2px 6px; border-radius: 4px;
+    font-size: 0.88em; color: #79c0ff; font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  pre {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+    padding: 14px 16px; margin: 12px 0; overflow-x: auto;
+    font-size: 0.85rem; color: #79c0ff; line-height: 1.5;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .team-card {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+    padding: 14px; text-align: center;
+  }
+  .team-card .name { font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+  .team-card .role { font-size: 0.85rem; color: #8b949e; }
+  .team-card .device { font-size: 0.8rem; color: #58a6ff; margin-top: 4px; }
+
+  .repo-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+  .repo-table th {
+    text-align: left; padding: 8px 12px; background: #0d1117;
+    color: #8b949e; border-bottom: 1px solid #30363d; font-weight: 500;
+  }
+  .repo-table td {
+    padding: 6px 12px; border-bottom: 1px solid #21262d; color: #c9d1d9;
+  }
+  .repo-table .cat {
+    font-weight: 600; color: #58a6ff; padding-top: 12px;
+  }
+
+  .url-list { list-style: none; margin: 12px 0; }
+  .url-list li {
+    padding: 8px 12px; border-bottom: 1px solid #21262d;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .url-list li:last-child { border-bottom: none; }
+  .url-list .label { color: #c9d1d9; }
+  .url-list a { font-size: 0.85rem; }
+
+  .footer {
+    text-align: center; padding: 32px 20px;
+    color: #30363d; font-size: 0.8rem;
+    border-top: 1px solid #21262d;
+    max-width: 800px; margin: 0 auto;
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.6rem; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    pre { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">Onboarding</div>
+  <h1>Nuevo Miembro AdmiraNext</h1>
+  <p>Guia paso a paso para configurar tu equipo, conocer las herramientas y empezar a trabajar con el equipo.</p>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 0 completados</div>
+</div>
+
+<main>
+
+<!-- SECTION 1: Bienvenida -->
+<div class="section open" data-section="1">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">1</span>
+    <h2>Bienvenida a AdmiraNext</h2>
+    <span class="badge">0/2</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <p style="margin-bottom:12px;color:#c9d1d9;">
+      <strong>AdmiraNext</strong> es el equipo de innovacion tecnologica de Admira. Trabajamos con inteligencia artificial
+      (Claude Code + Codex), automatizacion y desarrollo de herramientas internas. Todo el codigo vive en GitHub
+      bajo la cuenta <a href="https://github.com/csilvasantin" target="_blank">csilvasantin</a>.
+    </p>
+
+    <h3 style="font-size:1rem;color:#8b949e;margin:16px 0 8px;">El equipo</h3>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="name">Carlos</div>
+        <div class="role">Coordinacion y automatizacion</div>
+        <div class="device">Mac Mini + MacBook Pro 14</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Nines</div>
+        <div class="role">Operaciones</div>
+        <div class="device">MacBook Air</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Cesar</div>
+        <div class="role">Coordinacion y automatizacion</div>
+        <div class="device">MacBook Air Luna</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Carla</div>
+        <div class="role">Desarrollo y operaciones</div>
+        <div class="device">MacBook Air</div>
+      </div>
+      <div class="team-card">
+        <div class="name">Director General</div>
+        <div class="role">Direccion</div>
+        <div class="device">MacBook Air 16</div>
+      </div>
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c1_1" onchange="save()">
+      <label for="c1_1">He leido quien forma parte del equipo y que hacemos</label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c1_2" onchange="save()">
+      <label for="c1_2">Tengo acceso a la cuenta de GitHub <code>csilvasantin</code> o me han dado permisos de colaborador</label>
+    </div>
+  </div></div>
+</div>
+
+<!-- SECTION 2: Setup del Mac -->
+<div class="section" data-section="2">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">2</span>
+    <h2>Setup del Mac</h2>
+    <span class="badge">0/7</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="info-box tip">
+      Todos los equipos del equipo son Mac. Estos pasos asumen macOS. Si usas otro sistema, adapta los comandos.
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c2_1" onchange="save()">
+      <label for="c2_1">
+        <strong>Activar SSH</strong> — Ajustes del Sistema &gt; General &gt; Compartir &gt; Inicio de sesion remoto &gt; Activar<br>
+        <span style="color:#8b949e;font-size:0.85rem;">Esto permite que el Mac Mini central se conecte a tu equipo.</span>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_2" onchange="save()">
+      <label for="c2_2">
+        <strong>Instalar Tailscale</strong> — Descargar desde <a href="https://tailscale.com/download/mac" target="_blank">tailscale.com</a> e iniciar sesion.
+        <br><span style="color:#8b949e;font-size:0.85rem;">Red VPN del equipo: <code>tail48b61c.ts.net</code></span>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_3" onchange="save()">
+      <label for="c2_3">
+        <strong>Instalar Homebrew</strong>
+        <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_4" onchange="save()">
+      <label for="c2_4">
+        <strong>Instalar Git, Node.js y Python</strong>
+        <pre>brew install git node python</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_5" onchange="save()">
+      <label for="c2_5">
+        <strong>Instalar Claude Code</strong>
+        <pre>npm install -g @anthropic-ai/claude-code</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_6" onchange="save()">
+      <label for="c2_6">
+        <strong>Instalar Codex</strong>
+        <pre>npm install -g @openai/codex</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_7" onchange="save()">
+      <label for="c2_7">
+        <strong>Verificar instalacion</strong>
+        <pre>git --version && node --version && python3 --version && claude --version && codex --version</pre>
+      </label>
+    </div>
+  </div></div>
+</div>
+
+<!-- SECTION 3: Repositorios -->
+<div class="section" data-section="3">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">3</span>
+    <h2>Repositorios</h2>
+    <span class="badge">0/3</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="check-item">
+      <input type="checkbox" id="c3_1" onchange="save()">
+      <label for="c3_1">
+        <strong>Crear carpeta de trabajo</strong>
+        <pre>mkdir -p ~/Claude && cd ~/Claude</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c3_2" onchange="save()">
+      <label for="c3_2">
+        <strong>Clonar todos los repos</strong> (instala gh primero si no lo tienes: <code>brew install gh && gh auth login</code>)
+        <pre>gh repo list csilvasantin --limit 50 --json name -q '.[].name' | \
+  xargs -I{} gh repo clone csilvasantin/{} ~/Claude/{}</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c3_3" onchange="save()">
+      <label for="c3_3"><strong>Verificar</strong> que tienes los repos: <code>ls ~/Claude/</code></label>
+    </div>
+
+    <h3 style="font-size:1rem;color:#8b949e;margin:20px 0 8px;">Mapa de repositorios</h3>
+    <table class="repo-table">
+      <tr><td class="cat" colspan="2">Core</td></tr>
+      <tr><td><code>AdmiraNext-Team</code></td><td>Dashboard de control del equipo</td></tr>
+      <tr><td><code>admira-equipos</code></td><td>Inventario de equipos por sede</td></tr>
+      <tr><td class="cat" colspan="2">Juegos</td></tr>
+      <tr><td><code>xtanco-game</code></td><td>Simulador de tienda XTANCO (principal)</td></tr>
+      <tr><td><code>carla</code></td><td>Fork de xtanco-game</td></tr>
+      <tr><td><code>carlaxtanco</code></td><td>Version de Carla con layout personalizado</td></tr>
+      <tr><td><code>pong-tron</code></td><td>Juego Pong estilo Tron</td></tr>
+      <tr><td><code>game-platform</code></td><td>Plataforma de juegos</td></tr>
+      <tr><td class="cat" colspan="2">Bots y automatizacion</td></tr>
+      <tr><td><code>ClaudeBot</code></td><td>Auto-aprobacion de Claude Desktop</td></tr>
+      <tr><td><code>CodexBot</code></td><td>Auto-aprobacion de Codex</td></tr>
+      <tr><td><code>Hacker</code></td><td>Prank Matrix para demos</td></tr>
+      <tr><td class="cat" colspan="2">Web y documentacion</td></tr>
+      <tr><td><code>diario</code></td><td>Diario de trabajo diario con IA</td></tr>
+      <tr><td><code>tech</code></td><td>Diario tecnico</td></tr>
+      <tr><td><code>bitsandatoms</code></td><td>Proyecto web</td></tr>
+      <tr><td><code>ainimation</code></td><td>Animaciones con IA</td></tr>
+      <tr><td><code>csilvasantin.github.io</code></td><td>Pagina principal de GitHub Pages</td></tr>
+      <tr><td class="cat" colspan="2">Proyectos Admira</td></tr>
+      <tr><td><code>AenaJones</code></td><td>Proyecto Aena</td></tr>
+      <tr><td><code>AenaMallorca</code></td><td>Proyecto Aena Mallorca</td></tr>
+      <tr><td><code>Control-de-Tienda</code></td><td>Control de tienda</td></tr>
+      <tr><td><code>Matrix</code></td><td>Efecto Matrix</td></tr>
+      <tr><td><code>Spectrum</code></td><td>Emulador Spectrum</td></tr>
+      <tr><td><code>Emulador-de-Spectrum</code></td><td>Emulador de Spectrum alternativo</td></tr>
+      <tr><td><code>sitges</code></td><td>Proyecto Sitges</td></tr>
+      <tr><td><code>nuevo-miembro-admiranext</code></td><td>Esta guia de onboarding</td></tr>
+    </table>
+  </div></div>
+</div>
+
+<!-- SECTION 4: Herramientas -->
+<div class="section" data-section="4">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">4</span>
+    <h2>Herramientas del equipo</h2>
+    <span class="badge">0/4</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="check-item">
+      <input type="checkbox" id="c4_1" onchange="save()">
+      <label for="c4_1">
+        <strong>ClaudeBot</strong> — Monitoriza Claude Desktop y auto-aprueba prompts de continuacion.<br>
+        <span style="color:#8b949e;font-size:0.85rem;">
+          Guia de arranque:
+          <a href="https://github.com/csilvasantin/ClaudeBot/blob/main/START_MAC.md" target="_blank">START_MAC.md</a> |
+          <a href="https://github.com/csilvasantin/ClaudeBot/blob/main/START_WINDOWS.md" target="_blank">START_WINDOWS.md</a>
+        </span>
+        <pre>cd ~/Claude/ClaudeBot && pip install -r requirements.txt && python -m claudebot</pre>
+      </label>
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c4_2" onchange="save()">
+      <label for="c4_2">
+        <strong>CodexBot</strong> — Lo mismo pero para Codex.<br>
+        <span style="color:#8b949e;font-size:0.85rem;">En Mac: <code>python3 ~/Claude/CodexBot/codexbot_mac.py</code></span>
+      </label>
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c4_3" onchange="save()">
+      <label for="c4_3">
+        <strong>AdmiraNext Control</strong> — Dashboard central del equipo. Muestra estado de todas las maquinas, screenshots en tiempo real, y permite enviar prompts a cualquier equipo.<br>
+        <span style="color:#8b949e;font-size:0.85rem;">
+          <a href="https://csilvasantin.github.io/AdmiraNext-Team/" target="_blank">GitHub Pages</a> |
+          Local: <code>cd ~/Claude/AdmiraNext-Team && npm start</code> (puerto 3030)
+        </span>
+      </label>
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c4_4" onchange="save()">
+      <label for="c4_4">
+        <strong>Backup automatico a Google Drive</strong> — El script <code>sync-to-drive.sh</code> sincroniza todos los repos a Google Drive cada 10 minutos. Se instala como servicio launchd.<br>
+        <pre>bash ~/Claude/sync-to-drive.sh</pre>
+      </label>
+    </div>
+  </div></div>
+</div>
+
+<!-- SECTION 5: Flujo de trabajo -->
+<div class="section" data-section="5">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">5</span>
+    <h2>Flujo de trabajo diario</h2>
+    <span class="badge">0/5</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="info-box tip">
+      La regla 1-2-3 del equipo: <strong>1.</strong> registrar lo importante por fecha;
+      <strong>2.</strong> mantener el historial separado por dias;
+      <strong>3.</strong> cerrar siempre con HTML y una URL publica.
+    </div>
+
+    <div class="check-item">
+      <input type="checkbox" id="c5_1" onchange="save()">
+      <label for="c5_1"><strong>Abrir Claude Code</strong> en el Terminal: <code>claude</code> dentro de la carpeta del repo en el que vayas a trabajar.</label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c5_2" onchange="save()">
+      <label for="c5_2"><strong>Arrancar los bots</strong> (ClaudeBot + CodexBot) para que auto-aprueben mientras trabajas.</label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c5_3" onchange="save()">
+      <label for="c5_3"><strong>Registrar avances en el diario</strong> — Al final del dia (o durante), actualizar el <code>diario</code> repo con una entrada de la fecha.</label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c5_4" onchange="save()">
+      <label for="c5_4"><strong>Commit + push</strong> — Todo el trabajo debe quedar en GitHub. Siempre commit al final del dia.</label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c5_5" onchange="save()">
+      <label for="c5_5"><strong>Verificar en GitHub Pages</strong> — Si el repo tiene pagina publica, comprobar que se ve bien tras el push.</label>
+    </div>
+  </div></div>
+</div>
+
+<!-- SECTION 6: URLs -->
+<div class="section" data-section="6">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="arrow">&#9654;</span>
+    <span class="num">6</span>
+    <h2>URLs importantes</h2>
+    <span class="badge">0/1</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <ul class="url-list">
+      <li>
+        <span class="label">AdmiraNext Control</span>
+        <a href="https://csilvasantin.github.io/AdmiraNext-Team/" target="_blank">GitHub Pages</a>
+      </li>
+      <li>
+        <span class="label">xtanco-game</span>
+        <a href="https://csilvasantin.github.io/xtanco-game/" target="_blank">Jugar</a>
+      </li>
+      <li>
+        <span class="label">Diario</span>
+        <a href="https://csilvasantin.github.io/diario/" target="_blank">Ver diario</a>
+      </li>
+      <li>
+        <span class="label">Tech</span>
+        <a href="https://csilvasantin.github.io/tech/" target="_blank">Diario tecnico</a>
+      </li>
+      <li>
+        <span class="label">Pagina principal</span>
+        <a href="https://csilvasantin.github.io/" target="_blank">csilvasantin.github.io</a>
+      </li>
+      <li>
+        <span class="label">Esta guia</span>
+        <a href="https://csilvasantin.github.io/nuevo-miembro-admiranext/" target="_blank">Onboarding</a>
+      </li>
+      <li>
+        <span class="label">GitHub</span>
+        <a href="https://github.com/csilvasantin" target="_blank">Todos los repos</a>
+      </li>
+    </ul>
+
+    <div class="check-item">
+      <input type="checkbox" id="c6_1" onchange="save()">
+      <label for="c6_1"><strong>He visitado las URLs principales</strong> y se donde encontrar cada herramienta.</label>
+    </div>
+  </div></div>
+</div>
+
+</main>
+
+<div class="footer">
+  AdmiraNext &mdash; Onboarding v1.0 &mdash; 29 marzo 2026
+</div>
+
+<script>
+const STORAGE_KEY = 'admiranext-onboarding';
+
+function getAllCheckboxes() {
+  return [...document.querySelectorAll('input[type="checkbox"]')];
+}
+
+function save() {
+  const state = {};
+  getAllCheckboxes().forEach(cb => { state[cb.id] = cb.checked; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateProgress();
+  updateBadges();
+}
+
+function load() {
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    getAllCheckboxes().forEach(cb => { cb.checked = !!state[cb.id]; });
+  } catch(e) {}
+  updateProgress();
+  updateBadges();
+}
+
+function updateProgress() {
+  const all = getAllCheckboxes();
+  const done = all.filter(cb => cb.checked).length;
+  const pct = all.length > 0 ? Math.round((done / all.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + all.length + ' completados (' + pct + '%)';
+}
+
+function updateBadges() {
+  document.querySelectorAll('.section').forEach(sec => {
+    const cbs = sec.querySelectorAll('input[type="checkbox"]');
+    const done = [...cbs].filter(cb => cb.checked).length;
+    const badge = sec.querySelector('.badge');
+    if (badge) badge.textContent = done + '/' + cbs.length;
+    if (done === cbs.length && cbs.length > 0) {
+      sec.classList.add('done');
+    } else {
+      sec.classList.remove('done');
+    }
+  });
+}
+
+function toggleSection(header) {
+  const sec = header.closest('.section');
+  sec.classList.toggle('open');
+}
+
+load();
+</script>
+
+</body>
+</html>
