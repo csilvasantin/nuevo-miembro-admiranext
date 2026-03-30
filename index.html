@@ -276,7 +276,7 @@
     <span class="arrow">&#9654;</span>
     <span class="num">2</span>
     <h2>Setup del Mac</h2>
-    <span class="badge">0/7</span>
+    <span class="badge">0/8</span>
   </div>
   <div class="section-body"><div class="section-content">
     <div class="info-box tip">
@@ -330,6 +330,15 @@
       <label for="c2_7">
         <strong>Verificar instalacion</strong>
         <pre>git --version && node --version && python3 --version && claude --version && codex --version</pre>
+      </label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_8" onchange="save()">
+      <label for="c2_8">
+        <strong>Terminal con aspecto Homebrew por defecto</strong> — fondo negro, texto verde fosforito en todos los terminales nuevos.<br>
+        <pre>defaults write com.apple.Terminal "Default Window Settings" -string "Homebrew"
+defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"</pre>
+        <span style="color:#5a9a6a;font-size:0.85rem;">El script <code>arranque.sh</code> lo aplica automaticamente cada vez que lo ejecutas.</span>
       </label>
     </div>
   </div></div>
