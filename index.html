@@ -203,7 +203,7 @@
 <canvas id="matrixCanvas"></canvas>
 
 <div class="hero">
-  <div class="eyebrow">Onboarding &mdash; v1.1</div>
+  <div class="eyebrow">Onboarding &mdash; v1.2</div>
   <h1>Nuevo Miembro AdmiraNext</h1>
   <p class="subtitle">Guia paso a paso para configurar tu equipo, conocer las herramientas y empezar a trabajar con el equipo.</p>
 </div>
@@ -260,7 +260,7 @@
       <div class="team-card">
         <div class="name">Claude Code</div>
         <div class="role">IA — desarrollo y automatizacion</div>
-        <div class="device">claude-sonnet-4-6</div>
+        <div class="device">claude-opus-4-8</div>
       </div>
     </div>
 
@@ -346,6 +346,14 @@ defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"<
         <span style="color:#5a9a6a;font-size:0.85rem;">El script <code>arranque.sh</code> lo aplica automaticamente cada vez que lo ejecutas.</span>
       </label>
     </div>
+    <div class="check-item">
+      <input type="checkbox" id="c2_9" onchange="save()">
+      <label for="c2_9">
+        <strong>Darte de alta en la flota</strong> — registra esta maquina en el panel <code>admira.live/control</code> (estado online + control remoto). Requiere SSH y Tailscale ya activos.
+        <pre>curl -fsSL https://www.admira.live/onboard.sh | bash -s -- &lt;FLEET_TOKEN&gt; "Tu rol" "💻"</pre>
+        <span style="color:#5a9a6a;font-size:0.85rem;">El <code>FLEET_TOKEN</code> esta en Telegram o en <code>~/fleet-control/.fleet-token</code> del Mac Mini. Tras esto, activa <strong>Ajustes &gt; General &gt; Compartir &gt; Sesion remota</strong>.</span>
+      </label>
+    </div>
   </div></div>
 </div>
 
@@ -383,6 +391,10 @@ defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"<
       <tr><td class="cat" colspan="2">Core</td></tr>
       <tr><td><code>AdmiraNext-Team</code></td><td>Dashboard de control del equipo</td></tr>
       <tr><td><code>admira-equipos</code></td><td>Inventario de equipos por sede</td></tr>
+      <tr><td class="cat" colspan="2">Web corporativa + Consejo (GitHub Pages)</td></tr>
+      <tr><td><code>admira-next-web</code></td><td>Web corporativa &rarr; <strong>admiranext.com</strong></td></tr>
+      <tr><td><code>admira-bots</code></td><td>Tienda de robots Agibot &rarr; <strong>admira.shop</strong></td></tr>
+      <tr><td><code>32.-ConsejoAdmiraNextGame</code></td><td>AdmiraNext Council &rarr; <strong>admira.live</strong> (herramienta interna)</td></tr>
       <tr><td class="cat" colspan="2">Juegos</td></tr>
       <tr><td><code>xtanco-game</code></td><td>Simulador de tienda XTANCO (principal)</td></tr>
       <tr><td><code>carla</code></td><td>Fork de xtanco-game</td></tr>
@@ -455,6 +467,16 @@ defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"<
     </div>
 
     <div class="check-item">
+      <input type="checkbox" id="c4_5" onchange="save()">
+      <label for="c4_5">
+        <strong>AdmiraNext Council</strong> (<a href="https://www.admira.live/" target="_blank">admira.live</a>) — La sala de direccion convertida en aventura grafica: consulta, debate y vota con un consejo de 8 leyendas/coetaneos encarnados por IA, cada uno mapeado a una maquina del equipo. Es juego y consola operativa a la vez (Yarig.AI, presentaciones, panel de flota).<br>
+        <span style="color:#5a9a6a;font-size:0.85rem;">
+          Como se juega: <a href="https://www.admira.live/game/help" target="_blank">admira.live/game/help</a> ·
+          Contribuir sin pisarse: reserva tu area con el MCP del juego (ver <code>game/CONTRIBUTING.md</code>).
+        </span>
+      </label>
+    </div>
+    <div class="check-item">
       <input type="checkbox" id="c4_4" onchange="save()">
       <label for="c4_4">
         <strong>Backup automatico a Google Drive</strong> — El script <code>sync-to-drive.sh</code> sincroniza todos los repos a Google Drive cada 10 minutos. Se instala como servicio launchd.<br>
@@ -521,6 +543,18 @@ defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"<
   <div class="section-body"><div class="section-content">
     <ul class="url-list">
       <li>
+        <span class="label">AdmiraNext (web corporativa)</span>
+        <a href="https://www.admiranext.com/" target="_blank">admiranext.com</a>
+      </li>
+      <li>
+        <span class="label">Admira.shop (robots Agibot)</span>
+        <a href="https://admira.shop/" target="_blank">admira.shop</a>
+      </li>
+      <li>
+        <span class="label">AdmiraNext Council (interna)</span>
+        <a href="https://www.admira.live/" target="_blank">admira.live</a>
+      </li>
+      <li>
         <span class="label">AdmiraNext Control</span>
         <a href="https://csilvasantin.github.io/AdmiraNext-Team/" target="_blank">GitHub Pages</a>
       </li>
@@ -560,7 +594,7 @@ defaults write com.apple.Terminal "Startup Window Settings"  -string "Homebrew"<
 </main>
 
 <div class="footer">
-  AdmiraNext &mdash; Onboarding v1.1 &mdash; 29 marzo 2026
+  AdmiraNext &mdash; Onboarding v1.2 &mdash; 29 junio 2026
 </div>
 
 <!-- Matrix rain -->
